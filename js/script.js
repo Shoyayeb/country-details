@@ -1,10 +1,9 @@
-const fetchCountry = () => {
-    fetch('https://restcountries.eu/rest/v2/all')
+const fetchCountry = (url) => {
+    fetch(url)
     .then(res => res.json())
     .then(data => showCountry(data))
 }
 const showCountry = (countries) => {
-    console.log(countries[0]);
     const countryHTML = countries.map(country => getCountyHTML(country));
     const container = document.getElementById("countries")
     container.innerHTML = countryHTML.join('')
@@ -18,4 +17,10 @@ const getCountyHTML = country => {
         </div>
     `
 }
-fetchCountry()
+fetchCountry('https://restcountries.eu/rest/v2/all')
+
+document.getElementById("search-btn").addEventListener("click", function showCustomCountry() {
+    const searchedCountry = document.getElementById("searchedCountry").value
+    const customUrl = `https://restcountries.eu/rest/v2/name/${searchedCountry}`
+    fetchCountry(customUrl)
+})
